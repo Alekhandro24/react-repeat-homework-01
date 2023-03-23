@@ -1,29 +1,41 @@
 import PropTypes from 'prop-types';
 import { BsAlarm } from 'react-icons/bs';
 import { HiOutlineChartPie, HiOutlineChartBar } from 'react-icons/hi';
+import {
+  RecipeInfo,
+  InfoBlock,
+  BadgeList,
+  Badge,
+  Image,
+  Container,
+  Title,
+} from './Recipe.styled';
 
-export const Recipe = ({ recipe: { name, time, servings, calories } }) => {
+export const Recipe = ({
+  recipe: { name, time, servings, calories, difficulty, image },
+}) => {
   return (
-    <div style={{ border: '1px solid black', marginLeft: '25px' }}>
-      <h2>{name}</h2>
-      <div>
-        <div>
-          <BsAlarm size="25" /> {time} min
-        </div>
-        <div>
-          <HiOutlineChartPie size="25" /> {servings}servings
-        </div>
-        <div>
-          <HiOutlineChartBar size="25" /> {calories} calories
-        </div>
-      </div>
+    <Container>
+      <Title>{name}</Title>
+      <Image src={image} alt={name} width="320" />
+      <RecipeInfo>
+        <InfoBlock>
+          <BsAlarm size="25" /> <span>{time} min</span>
+        </InfoBlock>
+        <InfoBlock>
+          <HiOutlineChartPie size="25" /> <span>{servings} servings</span>
+        </InfoBlock>
+        <InfoBlock>
+          <HiOutlineChartBar size="25" /> <span>{calories} calories</span>
+        </InfoBlock>
+      </RecipeInfo>
       <h3>Difficulty</h3>
-      <div>
-        <span>Easy</span>
-        <span>Medium</span>
-        <span>Hard</span>
-      </div>
-    </div>
+      <BadgeList>
+        <Badge isActive={difficulty === 'easy'}>Easy </Badge>
+        <Badge isActive={difficulty === 'medium'}>Medium </Badge>
+        <Badge isActive={difficulty === 'hard'}>Hard </Badge>
+      </BadgeList>
+    </Container>
   );
 };
 
@@ -33,5 +45,7 @@ Recipe.propTypes = {
     time: PropTypes.string.isRequired,
     servings: PropTypes.number.isRequired,
     calories: PropTypes.number.isRequired,
+    difficulty: PropTypes.oneOf(['easy', 'medium', 'hard']).isRequired,
+    image: PropTypes.string,
   }).isRequired,
 };
